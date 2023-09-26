@@ -1,7 +1,9 @@
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+// SERVER SIDE FETCH IN HERE - CHECK EMILY WORK
+
 import { Character } from "@/@types";
-import React from "react";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Link from "next/link";
+import React from "react";
 
 interface Data {
 	characters?: Character[];
@@ -14,14 +16,25 @@ function Characters({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	console.log(characters);
 	return (
-		<div style={{ marginBottom: "1em" }}>
-			<h1>Characters!</h1>
-		</div>
-		// <div>
-		//         {characters && characters.map ((c) => {
-		//             return Link style={{ border: "solid 1px black", padding: "0.5em" }} key={c.name.common} href={`/countries/${c.cca2.toLowerCase()}`}>{c.name.common}</Link
-		//         }) }
-		// </div>
+		<>
+			<div>
+				<h1>Characters</h1>
+				<h2>The Rick & Morty universe...</h2>
+			</div>
+			<div>
+				{characters &&
+					characters.map((c) => {
+						return (
+							<Link
+								style={{ border: "solid 1px black", padding: "0.5em" }}
+								key={c.name}
+								href={`/${c.name}`}>
+								{c.name}
+							</Link>
+						);
+					})}
+			</div>
+		</>
 	);
 }
 
@@ -29,9 +42,10 @@ export const getServerSideProps: GetServerSideProps<Data> = async () => {
 	try {
 		const response = await fetch("https://rickandmortyapi.com/api/character");
 		const result = await response.json();
-		return { props: { countries: result } };
+		console.log(result, "result");
+		return { props: { characters: result } };
 	} catch (e) {
-		return { props: { error: "something went wrong" } };
+		return { props: { error: "Oops, something went wrong!" } };
 	}
 };
 

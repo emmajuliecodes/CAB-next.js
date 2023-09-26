@@ -18,3 +18,15 @@ export interface Character {
 	url: string;
 	created: string;
 }
+
+export interface PageInfo {
+	count: number;
+	pages: number;
+	next: string | null;
+	prev: string | null;
+}
+
+export interface ApiData {
+	info: PageInfo;
+	results: Character[];
+}
