@@ -1,38 +1,56 @@
 // SERVER SIDE FETCH IN HERE - CHECK EMILY WORK
 
-import { Character } from "@/@types";
+import { ApiData, Character } from "@/@types";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import React from "react";
+import { Inter } from "next/font/google";
+import styles from "@/styles/Home.module.css";
+
+const inter = Inter({ subsets: ["latin"] });
 
 interface Data {
-	characters?: Character[];
+	data?: ApiData;
 	error?: string;
 }
 
 function Characters({
-	characters,
+	data,
 	error,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-	console.log(characters);
+	console.log(data);
 	return (
 		<>
 			<div>
-				<h1>Characters</h1>
-				<h2>The Rick & Morty universe...</h2>
-			</div>
-			<div>
-				{characters &&
-					characters.map((c) => {
-						return (
-							<Link
-								style={{ border: "solid 1px black", padding: "0.5em" }}
-								key={c.name}
-								href={`/${c.name}`}>
-								{c.name}
-							</Link>
-						);
-					})}
+				<main className={`${styles.main} ${inter.className}`}>
+					<h1>Characters</h1>
+					<h2>The Rick & Morty universe...</h2>
+
+					{data &&
+						data.results.map((c) => {
+							return (
+								<>
+									<div className={styles.characterGrid}>
+										<Image
+											src={c.image}
+											width={200}
+											height={200}
+											alt="character image"
+										/>
+										<br></br>
+										<Link
+											style={{ border: "solid 1px black", padding: "0.5em" }}
+											key={c.name}
+											href={`/${c.id}`}>
+											{c.name}
+										</Link>
+									</div>
+									<br></br>
+								</>
+							);
+						})}
+				</main>
 			</div>
 		</>
 	);
@@ -43,10 +61,12 @@ export const getServerSideProps: GetServerSideProps<Data> = async () => {
 		const response = await fetch("https://rickandmortyapi.com/api/character");
 		const result = await response.json();
 		console.log(result, "result");
-		return { props: { characters: result } };
+		return { props: { data: result } };
 	} catch (e) {
 		return { props: { error: "Oops, something went wrong!" } };
 	}
 };
 
 export default Characters;
+
+// Look at getting data client side first

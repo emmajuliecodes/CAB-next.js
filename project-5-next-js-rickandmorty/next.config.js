@@ -1,6 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-}
+	reactStrictMode: true,
+	swcMinify: true,
 
-module.exports = nextConfig
+	images: {
+		remotePatterns: [
+			{
+				protocol: "https",
+				hostname: "rickandmortyapi.com",
+			},
+		],
+	},
+};
+
+module.exports = nextConfig;
