@@ -2,9 +2,8 @@ import { Character, ApiData } from "@/@types";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import Image from "next/image";
 
-interface Data {
-	data?: ApiData;
-	error?: string;
+interface Props {
+	character: Character;
 }
 
 const Character = ({
@@ -37,26 +36,29 @@ export const getStaticProps: GetStaticProps<{ character: Character }> = async (
 ) => {
 	console.log("Params from GetStaticProps: ", context.params);
 	const id = context.params!.id as string;
+	console.log("character id :>> ", id);
 	const response = await fetch(
-		`https://rickandmortyapi.com/api/character/result/${id}`
+		`https://rickandmortyapi.com/api/character/${id}`
 	);
 	const data = (await response.json()) as Character[];
 	console.log(data, "data");
 	return {
 		props: {
-			character: data[0],
+			character: data,
 		},
 	};
 };
 
 // Need this for static dynamic fetch- path parameter for each ID. Fetch all, then build path by ID
 export const getStaticPaths: GetStaticPaths = async () => {
-	const response = await fetch("https://rickandmortyapi.com/api/character/");
-	const result = (await response.json()) as Character[];
-	const paths = result.map((character) => {
+	const response = await fetch("https://rickandmortyapi.com/api/character");
+	const result = await response.json();
+	const data = result.results as Character[];
+
+	const paths = data.map((character) => {
 		return { params: { id: character.id.toString() } };
 	});
-	console.log(paths);
+	console.log("character paths", paths);
 	return {
 		paths: paths,
 		fallback: false,

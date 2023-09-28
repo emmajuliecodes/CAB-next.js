@@ -5,8 +5,6 @@ import styles from "@/styles/Home.module.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const API_URL = "https://rickandmortyapi.com/api/character";
-
 export default function Home() {
 	return (
 		<>
@@ -19,16 +17,4 @@ export default function Home() {
 			</main>
 		</>
 	);
-}
-
-export async function getServerSideProps() {
-	const response = await fetch(API_URL);
-	const data = await response.json();
-	const characters = data.results;
-
-	return {
-		props: {
-			characters,
-		},
-	};
 }

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import React from "react";
-import { Inter } from "next/font/google";
 
 type Props = {};
 
@@ -15,9 +14,11 @@ function Nav({}: Props) {
 				alignItems: "center",
 				padding: "0 1em",
 				border: "solid 1px black",
+				font: "inter",
 			}}>
 			<Link href={"/"}>Homepage</Link>{" "}
 			<Link href={"/characters"}>Characters</Link>
+			<Link href={"/episodes"}>Episodes</Link>
 		</div>
 	);
 }

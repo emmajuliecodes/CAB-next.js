@@ -1,3 +1,5 @@
+import { NumericLiteral } from "typescript";
+
 export interface Character {
 	id: number;
 	name: string;
@@ -19,6 +21,16 @@ export interface Character {
 	created: string;
 }
 
+export interface Episode {
+	id: number;
+	name: string;
+	air_date: string;
+	episode: string;
+	characters: string[];
+	url: string;
+	created: string;
+}
+
 export interface PageInfo {
 	count: number;
 	pages: number;
@@ -29,4 +41,9 @@ export interface PageInfo {
 export interface ApiData {
 	info: PageInfo;
 	results: Character[];
+}
+
+export interface EpisodeData {
+	info: PageInfo;
+	results: Episode[];
 }

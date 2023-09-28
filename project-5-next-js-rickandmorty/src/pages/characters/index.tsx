@@ -31,20 +31,26 @@ function Characters({
 						data.results.map((c) => {
 							return (
 								<>
-									<div className={styles.characterGrid}>
-										<Image
-											src={c.image}
-											width={200}
-											height={200}
-											alt="character image"
-										/>
-										<br></br>
-										<Link
-											style={{ border: "solid 1px black", padding: "0.5em" }}
-											key={c.name}
-											href={`/${c.id}`}>
-											{c.name}
-										</Link>
+									<div className={styles.grid}>
+										<div>
+											<Image
+												src={c.image}
+												width={200}
+												height={200}
+												alt="character image"
+											/>
+											<br></br>
+											<br></br>
+											<Link
+												style={{
+													border: "solid 1px black",
+													padding: "0.5em",
+												}}
+												key={c.name}
+												href={`/characters/${c.id}`}>
+												{c.name}
+											</Link>
+										</div>
 									</div>
 									<br></br>
 								</>
